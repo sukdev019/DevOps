@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+    <style>
+        body { font-family: Arial; margin: 30px; }
+        button { margin: 5px; }
+        .done { text-decoration: line-through; }
+    </style>
+</head>
+<body>
+
+    <h2>My Task Manager</h2>
+
+    <input id="task" placeholder="Enter task">
+    <button onclick="addTask()">Add</button>
+    <button onclick="clearTasks()">Clear All</button>
+
+    <br><br>
+    <input id="search" placeholder="Search task" oninput="searchTask()">
+
+    <ul id="list"></ul>
+
+    <script>
+        function addTask() {
+            let text = document.getElementById("task").value;
+            if (text.trim() == "") return;
+
+            let li = document.createElement("li");
+            li.innerHTML = text +
+                ' <button onclick="this.parentElement.remove()">Delete</button>';
+
+            li.onclick = function() {
+                if (event.target.tagName != "BUTTON")
+                    this.classList.toggle("done");
+            };
+
+            document.getElementById("list").appendChild(li);
+            document.getElementById("task").value = "";
+        }
+
+        function searchTask() {
+            let text = document.getElementById("search").value.toLowerCase();
+            document.querySelectorAll("#list li").forEach(li => {
+                li.style.display = li.textContent.toLowerCase().includes(text)
+                    ? "" : "none";
+            });
+        }
+
+        function clearTasks() {
+            document.getElementById("list").innerHTML = "";
+        }
+    </script>
+
+</body>
+</html>
